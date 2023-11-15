@@ -7,6 +7,8 @@ import java.util.Scanner;
 public class RobotInterface {
     private Scanner s;
     private RobotArena myArena;
+    private RobotSaveLoad SaveLoad;
+   
 
     public RobotInterface() {
         s = new Scanner(System.in);
@@ -14,7 +16,7 @@ public class RobotInterface {
 
         char ch = ' ';
         do {
-            System.out.print("Enter (A)dd Robot, get (I)nformation, (M)ove Robots, (D)isplay Arena, a(N)imation, (C)reate new Arena, or e(X)it > ");
+            System.out.print("Enter (A)dd Robot, get (I)nformation, (M)ove Robots, (D)isplay Arena, a(N)imation, (C)reate new Arena,Save and (L)oad Arena, or e(X)it > ");
             ch = s.next().charAt(0);
             s.nextLine();
             switch (ch) {
@@ -67,7 +69,6 @@ public class RobotInterface {
             myArena.moveAllRobots();
             doDisplay();
             System.out.print(myArena.toString());
-
           
             }
         }
@@ -78,10 +79,16 @@ public class RobotInterface {
         System.out.println(c.toString());
     }
     
+    
+    void SaveLoad() {
+    	RobotSaveLoad f = new RobotSaveLoad();	
+
+    	
+   
+    }
 
     public static void main(String[] args) {
-       RobotInterface r = new RobotInterface(); 	   
+       RobotInterface r = new RobotInterface(); 	          
        
-       
-    }
+    }    
 }

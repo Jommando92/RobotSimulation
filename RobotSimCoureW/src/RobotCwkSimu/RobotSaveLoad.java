@@ -10,8 +10,8 @@ package RobotCwkSimu;
 	import javax.swing.JFileChooser;
 	import javax.swing.filechooser.FileNameExtensionFilter;
 
-	//    import javax.swing.JFileChooser;
-	//    import javax.swing.filechooser.FileNameExtensionFilter;
+		//	import javax.swing.JFileChooser;
+		// 	import javax.swing.filechooser.FileNameExtensionFilter;
 
 		/**
 		 * A class for reading from and writing to text files
