@@ -2,7 +2,11 @@
 
 package RobotCwkSimu;
 
+import java.io.FileWriter;
+import java.lang.invoke.VarHandle;
 import java.util.Scanner;
+
+import javax.swing.JFileChooser;
 
 public class RobotInterface {
     private Scanner s;
@@ -80,15 +84,24 @@ public class RobotInterface {
     }
     
     
-    void SaveLoad() {
-    	RobotSaveLoad f = new RobotSaveLoad();	
-
+    static void save() {
+    	var fc = new JFileChooser();
+    	int code = fc.showSaveDialog(null);
+    	if (code == JFileChooser.APPROVE_OPTION) {
+    		try {
+    			var fw = new FileWriter(fc.getSelectedFile());
+    			fw.close();
+    		} catch (Exception e) {
+    			
+				// TODO: handle exception
+			}
+    	}
     	
    
     }
 
     public static void main(String[] args) {
-       RobotInterface r = new RobotInterface(); 	          
-       
+//       RobotInterface r = new RobotInterface();        
+       save();
     }    
 }

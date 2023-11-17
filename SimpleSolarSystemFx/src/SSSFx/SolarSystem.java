@@ -1,7 +1,7 @@
 /**
  * 
  */
-package guiForStudents;
+package SSSFx;
 
 import java.util.ArrayList;
 
