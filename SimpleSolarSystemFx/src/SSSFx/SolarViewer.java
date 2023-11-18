@@ -19,8 +19,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import uk.ac.reading.profrichardmitchell83.gui.MyCanvas;
-import uk.ac.reading.profrichardmitchell83.gui.SolarSystem;
 
 public class SolarViewer extends Application {
 	private int canvasSize = 512;				// constant for canvas size
