@@ -101,7 +101,7 @@ public class RobotInterface {
     }
 
     public static void main(String[] args) {
-//       RobotInterface r = new RobotInterface();        
-       save();
+       RobotInterface r = new RobotInterface();        
+//       save();
     }    
 }
