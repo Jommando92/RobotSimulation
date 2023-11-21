@@ -5,4 +5,4 @@
  * @author shsmchlr
  *
  */
-package guiForStudents;
+package Universe;
