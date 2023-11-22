@@ -1,4 +1,4 @@
-package Universe;
+package	Universe;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;

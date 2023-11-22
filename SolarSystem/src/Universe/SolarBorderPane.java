@@ -1,6 +1,4 @@
-package Universe;
-
-
+package	Universe;
 
 import java.util.Random;
 
@@ -12,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,8 +29,27 @@ public class SolarBorderPane extends Application {
     private Random rgen = new Random();			// random number generator
     private MyCanvas mc;						// canvas into which system drawn
     private SimpleSolar ourSystem;				// simple model of solar system
-	private int canvasSize = 512; 				// size of canvas
+	private int canvasSize = 512; // size of canvas
+	
+private void startAnimation(boolean[] animationOn) {
+		final long startNanoTime = System.nanoTime();
+		// for animation, note start time
 
+		new AnimationTimer() // create timer
+		{
+			public void handle(long currentNanoTime) {
+				if (animationOn[0]) {
+					// define handle for what do at this time
+					double t = (currentNanoTime - startNanoTime) / 1000000000.0; // calculate time
+					ourSystem.updateSystem(t); // use time as an angle for calculating position of earth
+					ourSystem.drawSystem(mc);
+					drawStatus();
+				}
+			}
+		}.start(); // start it
+
+	}
+	 
 	 /**
 	  * Function to show a message, 
 	  * @param TStr		title of message block
@@ -48,30 +66,11 @@ public class SolarBorderPane extends Application {
 	 * function to show in a box ABout the programme
 	 */
 	private void showAbout() {
-		showMessage("About", "RJM's BorderPane Demonstrator");
+		showMessage("About", "JQM's BorderPane Demonstrator");
 
 	}
 
-	private void startAnimation(boolean[] animationOn) {
-		final long startNanoTime = System.nanoTime();
-		// for animation, note start time
-
-		new AnimationTimer() // create timer
-		{
-			public void handle(long currentNanoTime) {
-				// define handle for what do at this time
-				double t = (currentNanoTime - startNanoTime) / 1000000000.0; // calculate time
-				ourSystem.updateSystem(t); // use time as an angle for calculating position of earth
-				ourSystem.drawSystem(mc);
-				drawStatus();
-				if (!animationOn[0]) {
-					this.stop();
-				}
-			}
-		}.start(); // start it
-
-	}
-	 
+	
 
 	/**
 	 * Function to set up the menu
@@ -93,7 +92,10 @@ public class SolarBorderPane extends Application {
 		mHelpContent.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent actionEvent) {
-				showMessage("Help", "This is a demonstration of a BorderPane");
+				showMessage("Help", "This is a simple solar system demonstrator.\n" +
+				"You can click on the canvas to reposition the sun, and use the 'Random Earth' button " +
+				"to place Earth at a random angle.\n" +
+				"The right pane displays information about the positions of Earth and Mars.");
 			}	
 		});
 		mHelp.getItems().addAll(mAbout, mHelpContent); // add submenus to Help
@@ -136,7 +138,9 @@ public class SolarBorderPane extends Application {
 	    	           @Override
 						public void handle(MouseEvent e) {
 							double x = e.getX();
+							canvasSize = mc.getXCanvasSize();
 							double y = e.getY();
+							canvasSize = mc.getYCanvasSize();
 							ourSystem.setSystem(mc, x, y);
 							ourSystem.drawSystem(mc);
 							drawStatus();
@@ -223,4 +227,3 @@ public class SolarBorderPane extends Application {
 	}
 
 }
-

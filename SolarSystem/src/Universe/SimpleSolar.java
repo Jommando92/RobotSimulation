@@ -1,5 +1,4 @@
-package Universe;
-
+package	Universe;
 
 import javafx.scene.image.Image;
 
@@ -19,7 +18,6 @@ public class SimpleSolar {
 	private double marsAngle; // angle of mars
 	private double marsOrbitSize = 0.4; // orbit size of mars
 	private double marsX, marsY; // position of mars
-
 	private Image earth;							// images of earth and sun
 	private Image sun;
 	private Image mars; // image of mars
@@ -33,11 +31,11 @@ public class SimpleSolar {
 		mars = new Image(getClass().getResourceAsStream("mars.png")); // load image of sun
     	sunX = 0.5;															// set position of sun
     	sunY = 0.5;
-		earthX = 0.3; // set position of earth
+		earthX = 0.2; // set position of earth
 		earthY = 0.0;
-		marsX = 0.5; // set position of mars
-		marsY = 0.5;
-		
+		marsX = 0.4; // set position of mars
+		marsY = 0.4;
+
 	
 
 		
@@ -48,10 +46,10 @@ public class SimpleSolar {
 	 * @param angle		angle (time dependent) of planet(s)
 	 */
 	public void updateSystem(double angle) {
-		earthAngle = 0.02;
+		earthAngle += 0.02;
 		earthAngle %= (2*Math.PI);		// keep angle in range 0..2PI
-		// set angle of earth appropriately
-		marsAngle = 0.01; // set angle of mars appropriately
+										// set angle of earth appropriately
+		marsAngle += 0.01; // set angle of mars appropriately
 		marsAngle %= (2 * Math.PI); // keep angle in range 0..2PI
 	}
 	
@@ -62,9 +60,17 @@ public class SimpleSolar {
 	 */
 	public void setSystem(MyCanvas mc, double x, double y) {
 		sunX = x;
-		mc.getXCanvasSize();		// set sun's position
 		sunY = y;
+
+		earthX = sunX + 0.2;
+		earthY = sunY;
+
+		marsX = sunX + 0.4;
+		marsY = sunY;
+
+		mc.getXCanvasSize();
 		mc.getYCanvasSize();
+	
 		
 		// note x,y in range 0.. canvassize
 	}
@@ -79,7 +85,7 @@ public class SimpleSolar {
 	 */
 	public void drawImage (MyCanvas mc, Image i, double x, double y, double sz) {
 		int cs = mc.getXCanvasSize();
-		mc.drawImage (i, (x+sunX)*cs, (y+sunY)*cs, sz*cs);		// add sun's position to positions then * canvas size
+		mc.drawImage (i, (x + 0.5) * cs - sz / 2, (y + 0.5) * cs - sz / 2, sz * cs);		// add sun's position to positions then * canvas size
 	}
 	
 	/**

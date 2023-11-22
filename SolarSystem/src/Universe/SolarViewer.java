@@ -1,5 +1,4 @@
-
-package Universe;
+package	Universe;
 
 
 import javafx.animation.AnimationTimer;
@@ -56,7 +55,6 @@ public class SolarViewer extends Application {
 		    alert.setTitle(TStr);
 		    alert.setHeaderText(null);
 		    alert.setContentText(CStr);
-
 		    alert.showAndWait();
 	}
    /**
