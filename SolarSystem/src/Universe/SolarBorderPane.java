@@ -1,14 +1,17 @@
 package Universe;
 
+
+
 import java.util.Random;
 
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,7 +30,7 @@ public class SolarBorderPane extends Application {
     private Random rgen = new Random();			// random number generator
     private MyCanvas mc;						// canvas into which system drawn
     private SimpleSolar ourSystem;				// simple model of solar system
-    private int canvasSize = 512;				// size of canvas
+	private int canvasSize = 512; 				// size of canvas
 
 	 /**
 	  * Function to show a message, 
@@ -39,22 +42,43 @@ public class SolarBorderPane extends Application {
 		    alert.setTitle(TStr);
 		    alert.setHeaderText(null);
 		    alert.setContentText(CStr);
-
 		    alert.showAndWait();
 	}
     /**
 	 * function to show in a box ABout the programme
 	 */
-	 private void showAbout() {
-		 showMessage("About", "RJM's BorderPane Demonstrator");
-	 }
+	private void showAbout() {
+		showMessage("About", "RJM's BorderPane Demonstrator");
+
+	}
+
+	private void startAnimation(boolean[] animationOn) {
+		final long startNanoTime = System.nanoTime();
+		// for animation, note start time
+
+		new AnimationTimer() // create timer
+		{
+			public void handle(long currentNanoTime) {
+				// define handle for what do at this time
+				double t = (currentNanoTime - startNanoTime) / 1000000000.0; // calculate time
+				ourSystem.updateSystem(t); // use time as an angle for calculating position of earth
+				ourSystem.drawSystem(mc);
+				drawStatus();
+				if (!animationOn[0]) {
+					this.stop();
+				}
+			}
+		}.start(); // start it
+
+	}
+	 
 
 	/**
 	 * Function to set up the menu
 	 */
 	MenuBar setMenu() {
-		MenuBar menuBar = new MenuBar();		// create menu
-
+		MenuBar menuBar = new MenuBar(); // create menu
+		
 		Menu mHelp = new Menu("Help");			// have entry for help
 				// then add sub menus for About and Help
 				// add the item and then the action to perform
@@ -65,10 +89,18 @@ public class SolarBorderPane extends Application {
             	showAbout();				// show the about message
             }	
 		});
-		mHelp.getItems().addAll(mAbout); 	// add submenus to Help
+		MenuItem mHelpContent = new MenuItem("Help Contents");
+		mHelpContent.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				showMessage("Help", "This is a demonstration of a BorderPane");
+			}	
+		});
+		mHelp.getItems().addAll(mAbout, mHelpContent); // add submenus to Help
+
 		
-				// now add File menu, which here only has Exit
-		Menu mFile = new Menu("File");
+		// now add File menu, which here only has Exit
+		Menu mFile = new Menu("File"); // have entry for file
 		MenuItem mExit = new MenuItem("Exit");
 		mExit.setOnAction(new EventHandler<ActionEvent>() {
 		    public void handle(ActionEvent t) {
@@ -87,8 +119,11 @@ public class SolarBorderPane extends Application {
 	 */
 	public void drawStatus() {
 		// clear rtPane
+		rtPane.getChildren().clear();
 		// get label which has information on system - use ourSystem.toString()
+		Label statusLabel = new Label(ourSystem.toString());
 		// add label to rtPane
+		rtPane.getChildren().add(statusLabel);
 	}
 
 	/**
@@ -99,8 +134,14 @@ public class SolarBorderPane extends Application {
 	       canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, 
 	    	       new EventHandler<MouseEvent>() {
 	    	           @Override
-	    	           public void handle(MouseEvent e) {
-	    	        	   /// write here code to put sun at e.x, e.y; redraw system and update panel
+						public void handle(MouseEvent e) {
+							double x = e.getX();
+							double y = e.getY();
+							ourSystem.setSystem(mc, x, y);
+							ourSystem.drawSystem(mc);
+							drawStatus();
+
+	    	        	   
 	    	           }
 	    	       });
 	}
@@ -109,17 +150,40 @@ public class SolarBorderPane extends Application {
 	 * set up the button and return so can add to borderpane
 	 * @return
 	 */
-    private HBox setButtons() {
+	private HBox setButtons() {
     			// create button
-    	Button btnBottom = new Button("Random Earth");
+				Button btnBottom = new Button("Random Earth");
+				Button btnStart = new Button("Start Animation");
+				Button btnStop = new Button("Stop Animation");
+				
+
     			// now add handler
     	btnBottom.setOnAction(new EventHandler<ActionEvent>() {
     		@Override
-    		public void handle(ActionEvent event) {
+			public void handle(ActionEvent event) {
+				double randomAngle = rgen.nextDouble() * 360;
+				ourSystem.updateSystem(randomAngle);
+				ourSystem.drawSystem(mc);
     			// write code here to put Earth at a random angle, and then draw system and update right panel
     		}
-    	});
-       	return new HBox(btnBottom);
+		});
+		final boolean[] animationOn = { false };
+		
+		btnStart.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				animationOn[0] = true;
+				startAnimation(animationOn);
+			}
+		});
+		
+		btnStop.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				animationOn[0] = false;
+			}
+		});
+       	return new HBox(btnBottom, btnStart, btnStop);
     }
 
 	
@@ -139,7 +203,7 @@ public class SolarBorderPane extends Application {
 					// create MyCanvas passing context on canvas onto which images put
 	    ourSystem = new SimpleSolar();				// create object for sun, planets, etc
 	    
-	    setMouseEvents(canvas);						// set mouse handler
+		setMouseEvents(canvas); // set mouse handler
 	    bp.setCenter(root);							// put group in centre pane
 
 	    rtPane = new VBox();						// set vBox for listing data
@@ -159,3 +223,4 @@ public class SolarBorderPane extends Application {
 	}
 
 }
+

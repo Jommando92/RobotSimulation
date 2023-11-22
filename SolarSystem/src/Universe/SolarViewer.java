@@ -1,6 +1,7 @@
 
 package Universe;
 
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -62,7 +63,7 @@ public class SolarViewer extends Application {
 	 * function to show in a box ABout the programme
 	 */
 	 private void showAbout() {
-		 showMessage("About", "RJM's Solar System Demonstrator");
+		 showMessage("About", "JQM's Solar System Demonstrator");
 	 }
 
 	/**
@@ -130,7 +131,7 @@ public class SolarViewer extends Application {
 	 */
 	@Override
 	public void start(Stage stagePrimary) throws Exception {
-		stagePrimary.setTitle("RJMs Solar System Simulator");
+		stagePrimary.setTitle("JQM's Solar System Simulator");
 
 	    BorderPane bp = new BorderPane();			// create border pane
 

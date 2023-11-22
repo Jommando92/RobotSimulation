@@ -17,7 +17,7 @@ public class SolarAnimation extends Application {
 	 */
 	@Override
 	public void start(Stage stagePrimary) throws Exception {
-		stagePrimary.setTitle("RJMs Solar System Animation");
+		stagePrimary.setTitle("Jumar Quinio Solar System Animation");
 		
 	    Group root = new Group();					// for group of what is shown
 	    Scene scene = new Scene( root );			// put it in a scene
