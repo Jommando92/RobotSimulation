@@ -1,5 +1,7 @@
 package RobotCwkSimu;
 
+
+
 public class Robot {
     private int x;
     private int y;
@@ -57,7 +59,9 @@ public class Robot {
         return (x == sx && y == sy);
     }
 
+
     public static Direction generateRandomDirection() {
-        return Direction.values()[(int) (Math.random() * Direction.values().length)];
-    }
+        return Direction.randomDirection();
+}
+    
 }

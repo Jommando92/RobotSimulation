@@ -2,12 +2,15 @@ package RobotCwkSimu;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.Serializable;
 
-public class RobotArena {
+
+public class RobotArena implements Serializable{
     private int width;
     private int height;
     private ArrayList<Robot> robots;
     private Random randomGenerator;
+    private static final int MIN_POSITION = 2;
 
     public RobotArena(int width, int height) {
         this.width = width;
@@ -16,10 +19,10 @@ public class RobotArena {
         this.randomGenerator = new Random();
     }
 
-    public void addRobot(Direction initialDirection) {
-        int x = randomGenerator.nextInt(width - 2) + 1;
-        int y = randomGenerator.nextInt(height - 2) + 1;
-        Robot robot = new Robot(x, y, initialDirection);
+    public void addRobot() {
+        int x = randomGenerator.nextInt(width - MIN_POSITION * 2) + MIN_POSITION;
+        int y = randomGenerator.nextInt(height - MIN_POSITION * 2) + MIN_POSITION;
+        Robot robot = new Robot(x, y, Direction.randomDirection());
         robots.add(robot);
     }
 
@@ -30,10 +33,15 @@ public class RobotArena {
     }
 
     public Robot getRobotAt(int x, int y) {
-        for (Robot robot : robots) {
-            if (robot.isHere(x, y)) {
-                return robot;
+        try {
+            for (Robot robot : robots) {
+                if (robot.isHere(x, y)) {
+                    return robot;
+                }
             }
+        } catch (Exception e) {
+            // Handle the exception (e.g., log or return null)
+            return null;
         }
         return null;
     }
@@ -71,10 +79,10 @@ public class RobotArena {
     }
 
     public static void main(String[] args) {
-        RobotArena a = new RobotArena(20, 10);
-        a.addRobot(null);
-        a.addRobot(null);
-        a.addRobot(null);
+        RobotArena a = new RobotArena(20, 10  );
+        a.addRobot();
+        a.addRobot();
+        a.addRobot();
 
         System.out.println(a.toString());
     }
