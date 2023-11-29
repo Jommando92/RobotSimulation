@@ -2,88 +2,92 @@ package RobotCwkSimu;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.io.Serializable;
 
+public class RobotArena {
 
-public class RobotArena implements Serializable{
-    private int width;
-    private int height;
-    private ArrayList<Robot> robots;
-    private Random randomGenerator;
-    private static final int MIN_POSITION = 2;
+  private int width;
+  private int height;
+  private ArrayList<Robot> robots;
+  private Random randomGenerator;
+  private static final int MIN_POSITION = 2;
 
-    public RobotArena(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.robots = new ArrayList<>();
-        this.randomGenerator = new Random();
+  public RobotArena(int width, int height) {
+    this.width = width;
+    this.height = height;
+    this.robots = new ArrayList<>();
+    this.randomGenerator = new Random();
+  }
+
+  public void addRobot() {
+    int x = randomGenerator.nextInt(width - MIN_POSITION * 2) + MIN_POSITION;
+    int y = randomGenerator.nextInt(height - MIN_POSITION * 2) + MIN_POSITION;
+    Robot robot = new Robot(x, y, Direction.randomDirection());
+    robots.add(robot);
+  }
+
+  public void showRobots(ConsoloCanvas c) {
+    for (Robot robot : robots) {
+      robot.displayRobot(c);
     }
+  }
 
-    public void addRobot() {
-        int x = randomGenerator.nextInt(width - MIN_POSITION * 2) + MIN_POSITION;
-        int y = randomGenerator.nextInt(height - MIN_POSITION * 2) + MIN_POSITION;
-        Robot robot = new Robot(x, y, Direction.randomDirection());
-        robots.add(robot);
-    }
-
-    public void showRobots(ConsoloCanvas c) {
-        for (Robot robot : robots) {
-            robot.displayRobot(c);
+  public Robot getRobotAt(int x, int y) {
+    try {
+      for (Robot robot : robots) {
+        if (robot.isHere(x, y)) {
+          return robot;
         }
+      }
+    } catch (Exception e) {
+      // Handle the exception (e.g., log or return null)
+      return null;
     }
+    return null;
+  }
 
-    public Robot getRobotAt(int x, int y) {
-        try {
-            for (Robot robot : robots) {
-                if (robot.isHere(x, y)) {
-                    return robot;
-                }
-            }
-        } catch (Exception e) {
-            // Handle the exception (e.g., log or return null)
-            return null;
-        }
-        return null;
+  public boolean canMoveHere(int x, int y) {
+    if (x < 1 || x >= width - 1 || y < 1 || y >= height - 1) {
+      return false;
     }
+    Robot robotAtPosition = getRobotAt(x, y);
+    return robotAtPosition == null;
+  }
 
-    public boolean canMoveHere(int x, int y) {
-        if (x < 1 || x >= width - 1 || y < 1 || y >= height - 1) {
-            return false;
-        }
-        Robot robotAtPosition = getRobotAt(x, y);
-        return robotAtPosition == null;
+  public void moveAllRobots() {
+    for (Robot robot : robots) {
+      robot.tryToMove(this);
     }
+  }
 
-    public void moveAllRobots() {
-        for (Robot robot : robots) {
-            robot.tryToMove(this);
-        }
+  @Override
+  public String toString() {
+    StringBuilder result = new StringBuilder();
+    result
+      .append("Arena Size: ")
+      .append(width)
+      .append(" x ")
+      .append(height)
+      .append("\n");
+    for (Robot robot : robots) {
+      result.append(robot.toString()).append("\n");
     }
+    return result.toString();
+  }
 
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("Arena Size: ").append(width).append(" x ").append(height).append("\n");
-        for (Robot robot : robots) {
-            result.append(robot.toString()).append("\n");
-        }
-        return result.toString();
-    }
+  public int getWidth() {
+    return width;
+  }
 
-    public int getWidth() {
-        return width;
-    }
+  public int getHeight() {
+    return height;
+  }
 
-    public int getHeight() {
-        return height;
-    }
+  public static void main(String[] args) {
+    RobotArena a = new RobotArena(20, 10);
+    a.addRobot();
+    a.addRobot();
+    a.addRobot();
 
-    public static void main(String[] args) {
-        RobotArena a = new RobotArena(20, 10  );
-        a.addRobot();
-        a.addRobot();
-        a.addRobot();
-
-        System.out.println(a.toString());
-    }
+    System.out.println(a.toString());
+  }
 }
