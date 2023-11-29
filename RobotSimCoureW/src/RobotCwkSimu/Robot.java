@@ -21,7 +21,7 @@ public class Robot implements Serializable {
     c.showIt(x, y, 'R');
   }
 
-  public void tryToMove(RobotArena arena) {
+  public void Move(RobotArena arena) {
     // Calculate the next potential position based on the direction
     int newX = x;
     int newY = y;

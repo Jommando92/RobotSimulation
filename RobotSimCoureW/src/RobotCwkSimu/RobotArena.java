@@ -55,7 +55,7 @@ public class RobotArena {
 
   public void moveAllRobots() {
     for (Robot robot : robots) {
-      robot.tryToMove(this);
+      robot.Move(this);
     }
   }
 
