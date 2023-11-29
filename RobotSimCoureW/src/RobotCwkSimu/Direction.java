@@ -10,7 +10,7 @@ public enum Direction {
 
   // Enums are implicitly final and immutable
 
-  // Static values for optimization
+  // Static values for optimisation
   private static final Direction[] VALUES = values();
   private static final int SIZE = VALUES.length;
 
