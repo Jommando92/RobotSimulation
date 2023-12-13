@@ -4,17 +4,19 @@ package Robot_GUI_Simulation;
  *
  */
 
-
 /**
  * @author Jumar Quinio Mesicias
- * The  WhiskerRobot which you are aiming at
+ *
+ *
+ *
+ *
+ *         The WhiskerRobot is the robot that will move after detecting anything
+ *         blocking its path, using its whiskers
  */
 public class WhiskerBot extends Robot {
 	private static final long serialVersionUID = 1L;// private int score;
 	private double rAngle;
 	private double rSpeed; // angle and speed of travel
-
-
 
 	/**
 	 * @param ix // x position
@@ -29,12 +31,11 @@ public class WhiskerBot extends Robot {
 		col = 'r';
 		rAngle = ia;
 		rSpeed = is;
-
 	}
-
 
 	/**
 	 * checkRobot in arena
+	 *
 	 * @param b RobotArena
 	 */
 	@Override
@@ -42,15 +43,14 @@ public class WhiskerBot extends Robot {
 		double originalAngle = rAngle;
 		rAngle = b.CheckRobotAngle(x, y, rad, rAngle, RobotID); // check for collision with wall or Robot
 		if (originalAngle != rAngle) {
-				adjustRobot();
-			}
+			adjustRobot();
+		}
 	}
-
 
 	/**
 	 * draw Robot and display score
 	 */
-
+	@Override
 	public void drawRobot(MyCanvas mc) {
 		double ang = rAngle * Math.PI / 180; // put angle in radians
 		mc.showCircle(x, y, rad, col); // draw Robot body
@@ -83,9 +83,8 @@ public class WhiskerBot extends Robot {
 		double antenna2X = x + (antennaLength * Math.cos(ang - Math.PI / 6));
 		double antenna2Y = y + (antennaLength * Math.sin(ang - Math.PI / 6));
 
-		mc.showLine(x, y, antenna1X, antenna1Y, antennaWidth); // Draw antenna 1
-		mc.showLine(x, y, antenna2X, antenna2Y, antennaWidth); // Draw antenna 2
-
+		mc.showLine(x, y, antenna1X, antenna1Y, antennaWidth, 'b'); // Draw antenna 1
+		mc.showLine(x, y, antenna2X, antenna2Y, antennaWidth, 'b'); // Draw antenna 2
 
 	}
 
@@ -100,12 +99,6 @@ public class WhiskerBot extends Robot {
 		y += rSpeed * Math.sin(radAngle);
 	}
 
-      // not needed here ..
-		@Override
-		public void setXY(double nx, double ny) {
-			// TODO Auto-generated method stub
-
-		}
 	/**
 	 * return string defining Robot ... here as target
 	 */

@@ -8,17 +8,20 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.text.TextAlignment;
 
 /**
- * @author shsmchlr
- *  Class to handle a canvas, used by different GUIs
+ * @author Jumar Quinio Mesicias
+ *
+ *
+ *
+ *      MyCanvas - class to provide a canvas for drawing on and some useful functions
  */
 public class MyCanvas {
-  int xCanvasSize = 512; // constants for relevant sizes
-  int yCanvasSize = 512;
+  int xCanvasSize = 550; // constants for relevant sizes
+  int yCanvasSize = 550;
   private GraphicsContext gc;
-
 
   /**
    * onstructor sets up relevant Graphics context and size of canvas
+   *
    * @param g
    * @param cs
    */
@@ -30,6 +33,7 @@ public class MyCanvas {
 
   /**
    * get size in x of canvas
+   *
    * @return xsize
    */
   public int getXCanvasSize() {
@@ -38,6 +42,7 @@ public class MyCanvas {
 
   /**
    * get size of xcanvas in y
+   *
    * @return ysize
    */
   public int getYCanvasSize() {
@@ -51,30 +56,30 @@ public class MyCanvas {
     gc.clearRect(0, 0, xCanvasSize, yCanvasSize); // clear canvas
   }
 
-  public void drawWheels(double x, double y, double rad, double angle) {
-    gc.fillArc(x - rad, y - rad, rad * 2, rad * 2, 0, 360, ArcType.ROUND); // fill circle
-  }
-
-  public void showLine(double x1, double y1, double x2, double y2) {
-    gc.strokeLine(x1, y1, x2, y2);
+  public void setCanvasSize(int width, int height) {
+    xCanvasSize = width;
+    yCanvasSize = height;
+    gc.getCanvas().setWidth(width);
+    gc.getCanvas().setHeight(height);
   }
 
   /**
    * drawIt ... draws object defined by given image at position and size
-   * @param i		image
-   * @param x		xposition	in range 0..1
-   * @param y   yposition	in range 0..1
-   * @param sz	size
+   *
+   * @param i  image
+   * @param x  xposition in range 0..1
+   * @param y  yposition in range 0..1
+   * @param sz size
    */
   public void drawIt(Image i, double x, double y, double sz) {
     // to draw centred at x,y, give top left position and x,y size
     // sizes/position in range 0..1, so scale to canvassize
-    gc.drawImage(i,xCanvasSize * (x - sz / 2),yCanvasSize * (y - sz / 2),xCanvasSize * sz,yCanvasSize * sz
-    );
+    gc.drawImage(i, xCanvasSize * (x - sz / 2), yCanvasSize * (y - sz / 2), xCanvasSize * sz, yCanvasSize * sz);
   }
 
   /**
    * function to convert char c to actual colour used
+   *
    * @param c
    * @return Color
    */
@@ -133,42 +138,33 @@ public class MyCanvas {
     return ans;
   }
 
-
   /**
    * set the fill colour to c
+   *
    * @param c
    */
-  public void setFillColour(Color c) {  // set fill colour
+  public void setFillColour(Color c) { // set fill colour
     gc.setFill(c);
   }
 
   /**
    * show the Robot at position x,y , radius r in colour defined by col
-   * @param x // x position
-   * @param y // y position
+   *
+   * @param x   // x position
+   * @param y   // y position
    * @param rad // radius
    * @param col // colour
    */
-  public void showCircle(double x,double y,double rad,char col) {
+  public void showCircle(double x, double y, double rad, char col) {
     setFillColour(colFromChar(col)); // set the fill colour
     gc.fillArc(x - rad, y - rad, rad * 2, rad * 2, 0, 360, ArcType.ROUND); // fill circle
   }
 
   /**
-  * show circle in current  colour atx,y size rad
-  * @param x // x position
-  * @param y // y position
-  * @param rad  // radius
-  * @param angle // angle
-  */
-  public void showCircle(double x, double y, double rad, double angle) {
-     gc.fillArc(x - rad, y - rad, rad * 2, rad * 2, 0, 360, ArcType.ROUND); // fill circle
-  }
-
-  /**
    * show line in current colour from x,y to ix,iy with width 5
-   * @param x // start of line
-   * @param y // start of line
+   *
+   * @param x  // start of line
+   * @param y  // start of line
    * @param ix // end of line
    * @param iy // end of line
    */
@@ -179,13 +175,14 @@ public class MyCanvas {
     gc.strokeLine(x, y, ix, iy); // fill circle
   }
 
-public void showLine(double x1, double y1, double x2, double y2, double width) {
-    gc.setLineWidth(width);
+  public void showLine(double x1, double y1, double x2, double y2, double width, char col) {
+    gc.setLineWidth(width); // set line width
     gc.strokeLine(x1, y1, x2, y2);
-}
+  }
 
   /**
    * Show Text .. by writing string s at position x,y
+   *
    * @param x
    * @param y
    * @param s
@@ -196,12 +193,14 @@ public void showLine(double x1, double y1, double x2, double y2, double width) {
     gc.setFill(Color.WHITE); // colour in white
     gc.fillText(s, x, y); // print score as text
   }
+
   public void clearCanvas(double x, double y, double w, double h) {
     gc.clearRect(x, y, w, h); // clear canvas
   }
 
   /**
    * Show Int .. by writing int i at position x,y
+   *
    * @param x
    * @param y
    * @param i
